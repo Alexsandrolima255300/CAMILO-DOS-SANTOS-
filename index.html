@@ -40,7 +40,17 @@
 <div class="panel"><h2>01. Dados para contato</h2><p class="sub">Quem devemos procurar sobre esta cotação?</p><div class="formgrid"><div class="field"><label for="nome">Nome / empresa *</label><input id="nome" name="nome" required maxlength="120" placeholder="Nome completo ou razão social"></div><div class="field"><label for="email">E-mail *</label><input id="email" name="email" type="email" required maxlength="160" placeholder="voce@empresa.com"></div><div class="field"><label for="telefone">Telefone / WhatsApp *</label><input id="telefone" name="telefone" required maxlength="30" placeholder="(00) 00000-0000"></div><div class="field"><label for="documento">CPF / CNPJ (opcional)</label><input id="documento" name="documento" maxlength="24" placeholder="Documento do solicitante"></div></div></div>
 <div class="panel"><h2>02. Origem e destino</h2><p class="sub">Informe as cidades de coleta e entrega.</p><div class="formgrid"><div class="field"><label for="origem">Cidade/UF de origem *</label><input id="origem" name="origem" required placeholder="Ex.: Uberaba/MG"></div><div class="field"><label for="destino">Cidade/UF de destino *</label><input id="destino" name="destino" required placeholder="Ex.: Ribeirão Preto/SP"></div><div class="field"><label for="cepOrigem">CEP de origem</label><input id="cepOrigem" name="cepOrigem" inputmode="numeric" maxlength="9" placeholder="00000-000"></div><div class="field"><label for="cepDestino">CEP de destino</label><input id="cepDestino" name="cepDestino" inputmode="numeric" maxlength="9" placeholder="00000-000"></div></div></div>
 <div class="panel"><h2>03. Detalhes da carga</h2><p class="sub">Estes dados ajudam a equipe a analisar o frete adequado.</p><div class="formgrid"><div class="field"><label for="mercadoria">Tipo de mercadoria *</label><input id="mercadoria" name="mercadoria" required placeholder="Ex.: peças, máquinas, caixas"></div><div class="field"><label for="modalidade">Tipo de transporte *</label><select id="modalidade" name="modalidade" required><option value="">Selecione</option><option>Fracionado</option><option>Lotação</option><option>Não sei / preciso de orientação</option></select></div><div class="field"><label for="volumes">Quantidade de volumes *</label><input id="volumes" name="volumes" type="number" min="1" max="100000" required placeholder="Ex.: 4"></div><div class="field"><label for="peso">Peso total (kg) *</label><input id="peso" name="peso" type="number" min="0.1" max="1000000" step="0.01" required placeholder="Ex.: 125.5"></div><div class="field"><label for="valor">Valor da nota fiscal (R$) *</label><input id="valor" name="valor" type="number" min="0" step="0.01" required placeholder="Ex.: 2500.00"></div><div class="field"><label for="prazo">Prazo desejado</label><select id="prazo" name="prazo"><option>Mais econômico</option><option>Mais rápido</option><option>Sem preferência</option></select></div><div class="field"><label for="comprimento">Comprimento por volume (cm)</label><input id="comprimento" name="comprimento" type="number" min="0" step="0.1" placeholder="Opcional"></div><div class="field"><label for="largura">Largura por volume (cm)</label><input id="largura" name="largura" type="number" min="0" step="0.1" placeholder="Opcional"></div><div class="field"><label for="altura">Altura por volume (cm)</label><input id="altura" name="altura" type="number" min="0" step="0.1" placeholder="Opcional"></div><div class="field"><label for="coleta">Necessita coleta no endereço?</label><select id="coleta" name="coleta"><option>Não informado</option><option>Sim</option><option>Não</option></select></div><div class="field full"><label for="observacoes">Observações adicionais</label><textarea id="observacoes" name="observacoes" rows="3" maxlength="1000" placeholder="Informações de entrega, restrições, medidas especiais..."></textarea></div></div>
-<div class="notice">Importante: o portal ainda não está conectado a uma tabela oficial de tarifas. O envio gera uma solicitação para você revisar e compartilhar; não representa preço final, prazo garantido nem confirmação de contratação.</div>
+<div class="panel" id="pricingPanel">
+<h2>04. Estimativa de frete</h2><p class="sub">Tabela Brasil Engrenagens · unidade de origem UDI · tabela de 04/09/2026. Selecione a região tarifária indicada pelo comercial.</p>
+<div class="formgrid">
+<div class="field"><label for="tariffRegion">Região tarifária *</label><select id="tariffRegion"><option value="">Carregando tarifas…</option></select></div>
+<div class="field"><label for="tariffType">Categoria da tabela *</label><select id="tariffType"><option value="">Selecione a região primeiro</option></select><small>Os códigos C, P, R, I e SP são mantidos como aparecem na planilha.</small></div>
+</div>
+<div class="actions"><button class="btn dark" type="button" id="calculateFreight">Calcular estimativa</button></div>
+<div class="result" id="freightResult" aria-live="polite"></div>
+<div class="notice">A estimativa considera tarifa por peso, cubagem, pedágio por fração de 100 kg, despacho, frete-valor, GRIS, TAS e TEC. Não inclui ICMS nem taxas condicionais de TDA/TDE, agendamento, reentrega, devolução, paletização ou permanência. Confirme a classificação tarifária e o valor final com a equipe comercial.</div>
+</div>
+<div class="notice">Importante: esta estimativa é baseada na tabela fornecida para Brasil Engrenagens. A solicitação gerada não representa preço final nem confirmação de contratação.</div>
 <div class="formactions"><button class="btn light" type="reset">Limpar formulário</button><button class="btn primary" type="submit">Preparar solicitação →</button></div><div class="result" id="quoteResult" aria-live="polite"></div></div>
 </form></section>
 <section class="page" id="page-historico"><div class="eyebrow">SEU HISTÓRICO</div><h1 class="pageTitle">Minhas cotações</h1><p class="lead">Veja as solicitações guardadas neste navegador. Elas não são sincronizadas com a transportadora.</p><div class="panel"><div class="sectionhead" style="margin-top:0"><div><h2>Solicitações registradas</h2><p>Os dados ficam salvos apenas neste dispositivo.</p></div><button id="exportBtn" class="btn light">↓ Exportar CSV</button></div><div id="historyContent"></div></div><div class="notice">Se você limpar os dados do navegador ou trocar de dispositivo, este histórico local poderá ser perdido. Para registro oficial, a transportadora precisa integrar o sistema a um banco de dados.</div></section>
@@ -70,5 +80,59 @@ $('exportBtn').addEventListener('click',()=>{const q=getQuotes();if(!q.length){a
 $('trackForm').addEventListener('submit',e=>{e.preventDefault();$('trackResult').style.display='block';$('trackResult').innerHTML='<strong>Não foi possível consultar o status online.</strong><p>O código <b>'+escapeHtml($('trackCode').value)+'</b> foi recebido no formulário, mas o portal ainda não está integrado ao sistema oficial de rastreamento. Entre em contato com a transportadora para confirmar o andamento.</p>'});
 $('contactForm').addEventListener('submit',e=>{e.preventDefault();const m='CONTATO — CAMILO DOS SANTOS\nNome: '+$('contactName').value+'\nE-mail: '+$('contactEmail').value+'\nMensagem: '+$('contactMessage').value;$('contactResult').style.display='block';$('contactResult').innerHTML='<div class="notice">Mensagem preparada. Como o e-mail/WhatsApp oficial ainda não foi configurado, copie o texto e encaminhe pelo canal confirmado da empresa.<br><br><button class="btn dark" id="copyMessage">Copiar mensagem</button><button class="btn light" id="downloadMessage">Baixar TXT</button></div>';$('copyMessage').onclick=()=>copyText(m,$('copyMessage'));$('downloadMessage').onclick=()=>downloadText('contato-camilo.txt',m)});
 refreshStats();
+
+// Calculadora com tarifas extraídas da planilha recebida.
+let freightTable=null;
+const money=n=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(n);
+const norm=s=>String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toUpperCase().trim();
+async function loadTariffs(){
+ try{
+  const res=await fetch('./tarifas-brasil-engrenagens.json');
+  if(!res.ok)throw new Error('Tabela indisponível');
+  freightTable=await res.json();
+  const groups=[...new Set(freightTable.tarifas.map(t=>t[1]))];
+  $('tariffRegion').innerHTML='<option value="">Selecione a região tarifária</option>'+groups.map(g=>'<option value="'+escapeHtml(g)+'">'+escapeHtml(g)+'</option>').join('');
+  $('tariffRegion').addEventListener('change',updateTariffTypes);
+ }catch(err){
+  $('tariffRegion').innerHTML='<option value="">Não foi possível carregar a tabela</option>';
+  $('freightResult').classList.add('show');
+  $('freightResult').innerHTML='<p>Não foi possível carregar a tabela de tarifas. Confira se o arquivo tarifas-brasil-engrenagens.json está publicado junto ao site.</p>';
+ }
+}
+function updateTariffTypes(){
+ const region=$('tariffRegion').value;
+ const types=freightTable.tarifas.filter(t=>t[1]===region).map(t=>t[2]);
+ $('tariffType').innerHTML='<option value="">Selecione</option>'+types.map(t=>'<option value="'+escapeHtml(t)+'">'+escapeHtml(t)+'</option>').join('');
+}
+$('calculateFreight').addEventListener('click',()=>{
+ if(!freightTable){alert('A tabela de tarifas ainda não foi carregada.');return}
+ const region=$('tariffRegion').value,type=$('tariffType').value;
+ const weight=Number($('peso').value),nf=Number($('valor').value),volumes=Math.max(1,Number($('volumes').value)||1);
+ const l=Number($('comprimento').value),w=Number($('largura').value),h=Number($('altura').value);
+ if(!region||!type){alert('Selecione a região tarifária e a categoria da tabela.');return}
+ if(!(weight>0)||!(nf>=0)){alert('Informe o peso total e o valor da nota fiscal.');return}
+ const rate=freightTable.tarifas.find(t=>t[1]===region&&t[2]===type);
+ if(!rate){alert('Não foi encontrada uma tarifa para esta combinação.');return}
+ const hasDims=l>0&&w>0&&h>0;
+ const cubic=hasDims?(l*w*h*volumes/1000000)*freightTable.adicionais.cubagem:0;
+ const chargeable=Math.max(weight,cubic);
+ const bands=freightTable.faixasKg;
+ let base=0,bandLabel='';
+ const bandIndex=bands.findIndex(b=>chargeable<=b);
+ if(bandIndex>=0){base=rate[3+bandIndex];bandLabel='Até '+bands[bandIndex]+' kg'}
+ else{base=rate[9]+(chargeable-100)*rate[10];bandLabel='Acima de 100 kg (excedente por kg)'}
+ const a=freightTable.adicionais;
+ const freightValue=nf*(rate[11]||a.freteValorPercentual);
+ const gris=nf*a.grisPercentual;
+ const toll=Math.ceil(chargeable/100)*a.pedagioPor100Kg;
+ const dispatch=a.despachoPorConhecimento;
+ const tas=a.tas;
+ const tec=(base+freightValue+gris+toll+dispatch+tas)*a.tecPercentual;
+ const total=base+freightValue+gris+toll+dispatch+tas+tec;
+ $('freightResult').classList.add('show');
+ $('freightResult').innerHTML='<h3>Estimativa calculada</h3><div class="price">'+money(total)+'</div><p>Peso real: <strong>'+weight.toLocaleString('pt-BR')+' kg</strong> · Peso cubado: <strong>'+cubic.toLocaleString('pt-BR',{maximumFractionDigits:2})+' kg</strong> · Peso considerado: <strong>'+chargeable.toLocaleString('pt-BR',{maximumFractionDigits:2})+' kg</strong><br>Tarifa: <strong>'+escapeHtml(region)+' / '+escapeHtml(type)+'</strong> · Faixa: '+escapeHtml(bandLabel)+'</p><div class="tablewrap"><table><tbody><tr><td>Frete por peso</td><td>'+money(base)+'</td></tr><tr><td>Frete-valor ('+((rate[11]||a.freteValorPercentual)*100).toLocaleString('pt-BR')+'% da NF</td><td>'+money(freightValue)+'</td></tr><tr><td>GRIS (0,15% da NF)</td><td>'+money(gris)+'</td></tr><tr><td>Pedágio ('+Math.ceil(chargeable/100)+' fração(ões) de 100 kg)</td><td>'+money(toll)+'</td></tr><tr><td>Despacho por conhecimento</td><td>'+money(dispatch)+'</td></tr><tr><td>TAS</td><td>'+money(tas)+'</td></tr><tr><td>TEC (6,69% sobre os itens considerados)</td><td>'+money(tec)+'</td></tr><tr><th>Total estimado antes de ICMS e taxas condicionais</th><th>'+money(total)+'</th></tr></tbody></table></div><p>Este cálculo é uma estimativa técnica da tabela fornecida, não uma cotação oficial. O prazo da relação de praças não foi aplicado automaticamente porque a região tarifária deve ser confirmada para a cidade de destino.</p>';
+ $('freightResult').scrollIntoView({behavior:'smooth',block:'center'});
+});
+loadTariffs();
 </script>
 </body></html>
